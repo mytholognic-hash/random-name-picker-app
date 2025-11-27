@@ -1,5 +1,9 @@
 // BEGIN JAVASCRIPT CODE
 
+// NEW: Define Audio Objects Globally but initialize later
+let pickingSound;
+let winSound;
+
 let employeeNames = []; 
 let initialNames = [];  
 
@@ -16,18 +20,21 @@ const mainContainer = document.querySelector(".main-container");
 const totalNameCountDisplay = document.getElementById("totalNameCount");
 const remainingCountDisplay = document.getElementById("remainingCount");
 
-// ADDED: Audio Objects
-const pickingSound = new Audio('picking_sound.mp3'); 
-pickingSound.loop = true; 
-pickingSound.volume = 0.5; 
+// NEW FUNCTION: Initialize audio after first user click (Load Names button)
+function initializeAudio() {
+    if (!pickingSound) { 
+        pickingSound = new Audio('picking_sound.mp3'); 
+        pickingSound.loop = true; 
+        pickingSound.volume = 0.5; 
 
-const winSound = new Audio('win_jingle.mp3'); 
-winSound.volume = 0.7; 
-// END ADDED
+        winSound = new Audio('win_jingle.mp3'); 
+        winSound.volume = 0.7; 
+    }
+}
 
 // --- Core Functions ---
 
-// 1. Load Names from Textarea
+// 1. Load Names from Textarea (MODIFIED to call initializeAudio)
 function loadNames() {
     const namesText = nameInput.value.trim();
     if (namesText === "") {
@@ -46,6 +53,9 @@ function loadNames() {
 
     initialNames = [...employeeNames]; 
     
+    // Call audio initializer function
+    initializeAudio(); 
+    
     totalNameCountDisplay.innerText = initialNames.length;
     
     updateRemainingList();
@@ -56,7 +66,7 @@ function loadNames() {
     nameInput.disabled = true;
 }
 
-// 2. Pick a Winner (MODIFIED to start picking sound)
+// 2. Pick a Winner
 async function selectRandomWinner() {
     if (employeeNames.length === 0) {
         resultDisplay.innerHTML = "🎉 All names have been picked!";
@@ -68,8 +78,10 @@ async function selectRandomWinner() {
     resultDisplay.innerHTML = `<span class="draw-animation">Picking...</span>`;
     
     // START picking sound
-    pickingSound.currentTime = 0; 
-    pickingSound.play().catch(e => console.log("Audio play failed:", e)); 
+    if (pickingSound) { // Check if audio is initialized
+        pickingSound.currentTime = 0; 
+        pickingSound.play().catch(e => console.error("Picking audio play failed:", e)); 
+    }
 
     // Exciting Animation Part 
     const animationDuration = 2000; 
@@ -94,11 +106,13 @@ async function selectRandomWinner() {
     }, intervalTime);
 }
 
-// Function to reveal the actual winner after animation (MODIFIED to stop picking and play win sound)
+// Function to reveal the actual winner after animation
 function revealWinner() {
     // STOP picking sound
-    pickingSound.pause();
-    pickingSound.currentTime = 0; 
+    if (pickingSound) {
+        pickingSound.pause();
+        pickingSound.currentTime = 0; 
+    }
 
     const randomIndex = Math.floor(Math.random() * employeeNames.length);
 
@@ -109,11 +123,14 @@ function revealWinner() {
     const winner = employeeNames[randomIndex];
     employeeNames.splice(randomIndex, 1); 
 
+    // Display winner with huge text and pop-in animation
     resultDisplay.innerHTML = `Congratulations! The winner is:<br><strong class="winner-name">${winner}</strong>`;
     
     // PLAY winner sound
-    winSound.currentTime = 0;
-    winSound.play().catch(e => console.log("Win audio play failed:", e));
+    if (winSound) {
+        winSound.currentTime = 0;
+        winSound.play().catch(e => console.error("Win audio play failed:", e));
+    }
 
     fireConfetti();
 
@@ -148,8 +165,10 @@ function updateRemainingList() {
 // 4. Reset Application
 function resetApp() {
     // Ensure sound is stopped on reset
-    pickingSound.pause();
-    pickingSound.currentTime = 0; 
+    if (pickingSound) {
+        pickingSound.pause();
+        pickingSound.currentTime = 0; 
+    }
     
     employeeNames = [...initialNames]; 
     
@@ -196,7 +215,6 @@ function createSparkle() {
 
 // --- Confetti & Fireworks Function ---
 function fireConfetti() {
-    // Basic confetti from the center
     confetti({
         particleCount: 100,
         spread: 70,
@@ -234,5 +252,4 @@ resetButton.addEventListener("click", resetApp);
 totalNameCountDisplay.innerText = 0;
 remainingCountDisplay.innerText = 0;
 updateRemainingList(); 
-
 // END JAVASCRIPT CODE
