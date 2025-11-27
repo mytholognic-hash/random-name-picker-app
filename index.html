@@ -11,9 +11,15 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     
     <style>
+        /*
+        ===================================================================
+        --- GENERAL STYLES & BACKGROUND ---
+        ===================================================================
+        */
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f0f2f5;
+            /* UPDATED: Lighter, more vibrant background gradient */
+            background: linear-gradient(135deg, #f0f2f5 0%, #e0f7fa 100%); 
             color: #333;
             display: flex;
             flex-direction: column;
@@ -23,12 +29,12 @@
             min-height: 100vh;
             box-sizing: border-box;
             line-height: 1.6;
-            position: relative; /* Base for footer fixed positioning */
+            position: relative;
         }
         .main-container {
             background-color: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 18px; /* Slightly rounder */
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); /* Stronger shadow */
             max-width: 800px;
             width: 100%;
             margin-bottom: 30px;
@@ -38,7 +44,7 @@
             position: relative;
         }
         h1 {
-            color: #2c3e50;
+            color: #00796b; /* Teal color for title */
             margin-bottom: 20px;
             font-size: 2.5em;
             font-weight: 700;
@@ -48,7 +54,7 @@
 
         /* --- Name Input Section (Focused) --- */
         .name-input-section {
-            background: url('https://picsum.photos/800/400?random=123') center/cover no-repeat;
+            background: url('https://picsum.photos/800/400?random=456') center/cover no-repeat;
             padding: 40px;
             color: white;
             text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
@@ -56,19 +62,20 @@
             z-index: 1;
         }
         .name-input-section::before {
+            /* UPDATED: Slightly lighter overlay */
+            background: rgba(0, 0, 0, 0.3); 
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
             z-index: -1;
         }
         .name-input-section label {
             color: white;
-            font-size: 1.2em;
-            font-weight: 600;
+            font-size: 1.3em; /* Slightly larger label */
+            font-weight: 700;
             margin-bottom: 15px;
         }
         textarea {
@@ -76,58 +83,80 @@
             height: 200px;
             margin-bottom: 20px;
             padding: 12px;
-            border: 1px solid #ccc;
+            border: 2px solid #00acc1; /* Cyan border */
             border-radius: 10px;
             font-size: 1.1em;
             resize: vertical;
             font-family: 'Poppins', sans-serif;
-            box-shadow: inset 0 1px 5px rgba(0,0,0,0.1);
-            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 15px rgba(0, 172, 193, 0.3), inset 0 1px 5px rgba(0,0,0,0.1);
+            background-color: rgba(255, 255, 255, 0.95);
         }
         textarea:disabled {
             background-color: rgba(230, 230, 230, 0.9);
         }
 
-        /* --- Buttons and Results --- */
+        /*
+        ===================================================================
+        --- BUTTON STYLES (Color Palette: Green, Orange, Red) ---
+        ===================================================================
+        */
         .action-results-section {
             padding: 30px 50px;
             text-align: center;
         }
         button {
-            background-color: #3498db;
-            color: white;
-            padding: 12px 28px;
+            padding: 14px 30px; /* Larger buttons */
             border: none;
-            border-radius: 8px;
+            border-radius: 999px; /* Pill shape */
             font-size: 1.1em;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
             margin: 8px;
-            font-weight: 600;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         button:hover:not(:disabled) {
-            background-color: #2980b9;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            transform: translateY(-4px); /* Stronger hover effect */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
         }
         button:disabled {
             background-color: #cccccc;
             cursor: not-allowed;
             box-shadow: none;
+            transform: none;
         }
-        #loadNamesButton { background-color: #28a745; }
-        #loadNamesButton:hover:not(:disabled) { background-color: #218838; }
-        #drawButton { background-color: #ff6f61; }
-        #drawButton:hover:not(:disabled) { background-color: #e65c50; }
-        #resetButton { background-color: #dc3545; }
-        #resetButton:hover:not(:disabled) { background-color: #c82333; }
+        #loadNamesButton { 
+            background-color: #4caf50; /* Load: Green */
+            color: #ffffff;
+        }
+        #loadNamesButton:hover:not(:disabled) { 
+            background-color: #43a047; 
+        }
+        #drawButton { 
+            background-color: #ff9800; /* Draw: Orange/Amber */
+            color: #ffffff;
+        }
+        #drawButton:hover:not(:disabled) { 
+            background-color: #fb8c00; 
+        }
+        #resetButton { 
+            background-color: #f44336; /* Reset: Red */
+            color: #ffffff;
+        }
+        #resetButton:hover:not(:disabled) { 
+            background-color: #e53935; 
+        }
 
+        /*
+        ===================================================================
+        --- RESULT & ANIMATION STYLES ---
+        ===================================================================
+        */
         #resultDisplay {
             margin-top: 30px;
-            font-size: 2.2em;
+            font-size: 2.4em;
             font-weight: 700;
-            color: #007bff;
+            color: #1976d2; /* Deep blue for status */
             min-height: 60px;
             display: flex;
             align-items: center;
@@ -137,17 +166,15 @@
         }
         .draw-animation {
             font-size: 3em;
-            color: #ffbb33;
+            color: #ffeb3b; /* Bright yellow/gold */
             animation: pulse 1s infinite alternate, bounce 0.5s infinite ease-in-out;
-            text-shadow: 0 0 15px rgba(255,187,51,0.7);
+            text-shadow: 0 0 20px rgba(255, 235, 59, 0.9);
         }
-        
-        /* --- BIG Winner Name Style --- */
         .winner-name {
-            font-size: 4em; 
-            color: #e74c3c;
+            font-size: 4.5em; /* EVEN bigger name! */
+            color: #c2185b; /* Deep pink/Red for celebration */
             font-weight: 800;
-            text-shadow: 3px 3px 10px rgba(0,0,0,0.2), 0 0 20px rgba(231,76,60,0.6);
+            text-shadow: 4px 4px 15px rgba(0,0,0,0.3), 0 0 30px rgba(194, 24, 91, 0.8);
             animation: popIn 0.5s ease-out;
             word-break: break-word; 
             line-height: 1;
@@ -158,7 +185,6 @@
             80% { transform: scale(1.1); opacity: 1; }
             100% { transform: scale(1); }
         }
-
         @keyframes pulse {
             from { opacity: 0.7; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1.05); }
@@ -167,8 +193,12 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
-        
-        /* --- Comparative Boxes --- */
+
+        /*
+        ===================================================================
+        --- COUNT BOXES ---
+        ===================================================================
+        */
         #nameCountDashboard {
             display: flex;
             justify-content: space-between;
@@ -178,35 +208,46 @@
         .count-box {
             flex: 1; 
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 12px;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        .count-box:hover {
+            transform: translateY(-3px);
         }
         .total-box {
-            background-color: #f7f7f7; 
-            border: 1px solid #ddd;
+            background-color: #e3f2fd; /* Very light blue */
+            border: 1px solid #90caf9;
         }
         .remaining-box {
-            background-color: #ffe0b2; 
-            border: 1px solid #ffcc80;
+            background-color: #fff9c4; /* Light yellow */
+            border: 1px solid #ffeb3b;
         }
         .count-box span {
             display: block;
             font-size: 0.9em;
             color: #555;
             margin-bottom: 5px;
+            font-weight: 600;
         }
         .count-box strong {
             display: block;
             font-size: 2.2em; 
             font-weight: 800;
-            color: #e74c3c; 
         }
         .total-box strong {
-             color: #2c3e50; 
+             color: #1976d2; /* Deep blue count */
         }
-        
-        /* --- Remaining Names List --- */
+        .remaining-box strong {
+             color: #f57f17; /* Dark orange count */
+        }
+
+        /*
+        ===================================================================
+        --- REMAINING LIST & FOOTER & RESPONSIVENESS ---
+        ===================================================================
+        */
         #remainingNamesContainer {
             margin-top: 35px;
             text-align: left;
@@ -240,11 +281,22 @@
         #remainingNamesList li:last-child {
             border-bottom: none;
         }
-        .action-buttons {
-            margin-top: 25px;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
+        .app-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #37474f; 
+            color: #bdc3c7; 
+            text-align: center;
+            padding: 5px 0;
+            font-size: 0.75em;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000; 
+        }
+        .app-footer strong {
+            font-weight: 600;
+            color: #ecf0f1;
         }
         .sparkle {
             position: absolute;
@@ -262,41 +314,22 @@
             100% { opacity: 0; transform: scale(1.5); }
         }
         
-        /* --- NEW FOOTER STYLE --- */
-        .app-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #2c3e50; /* Dark color */
-            color: #bdc3c7; /* Light gray text */
-            text-align: center;
-            padding: 5px 0;
-            font-size: 0.75em;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-            z-index: 1000; /* Ensure it stays above other content */
-        }
-        .app-footer strong {
-            font-weight: 600;
-            color: #ecf0f1;
-        }
-
         /* --- Responsive Fix: Media Query for smaller screens (<= 700px) --- */
         @media (max-width: 700px) {
             body {
-                padding: 10px 10px 80px 10px; /* Adjust padding */
+                padding: 10px 10px 80px 10px;
             }
             .main-container {
                 padding: 0;
             }
             .winner-name {
-                font-size: 2.5em; 
+                font-size: 3em; 
             }
             .action-results-section {
                 padding: 20px; 
             }
             #nameCountDashboard {
-                flex-direction: column; /* Stack boxes vertically on small screens */
+                flex-direction: column; 
                 gap: 10px;
             }
         }
@@ -349,6 +382,12 @@ David Brown"></textarea>
         Created by <strong>Nicky</strong>
     </footer>
     <script>
+        // BEGIN JAVASCRIPT CODE
+
+        // NEW: Define Audio Objects Globally but initialize later
+        let pickingSound;
+        let winSound;
+
         let employeeNames = []; 
         let initialNames = [];  
 
@@ -365,9 +404,22 @@ David Brown"></textarea>
         const totalNameCountDisplay = document.getElementById("totalNameCount");
         const remainingCountDisplay = document.getElementById("remainingCount");
 
+        // NEW FUNCTION: Initialize audio after first user click (Load Names button)
+        function initializeAudio() {
+            if (!pickingSound) { 
+                // *** ใช้ไฟล์ .wav ตามที่คุณใช้งานจริง ***
+                pickingSound = new Audio('picking_sound.wav'); 
+                pickingSound.loop = true; 
+                pickingSound.volume = 0.5; 
+
+                winSound = new Audio('win_jingle.wav'); 
+                winSound.volume = 0.7; 
+            }
+        }
+
         // --- Core Functions ---
 
-        // 1. Load Names from Textarea
+        // 1. Load Names from Textarea (MODIFIED to call initializeAudio)
         function loadNames() {
             const namesText = nameInput.value.trim();
             if (namesText === "") {
@@ -385,6 +437,9 @@ David Brown"></textarea>
             }
 
             initialNames = [...employeeNames]; 
+            
+            // Call audio initializer function
+            initializeAudio(); 
             
             // Set Total Count 
             totalNameCountDisplay.innerText = initialNames.length;
@@ -407,6 +462,12 @@ David Brown"></textarea>
 
             drawButton.disabled = true;
             resultDisplay.innerHTML = `<span class="draw-animation">Picking...</span>`;
+            
+            // START picking sound
+            if (pickingSound) { 
+                pickingSound.currentTime = 0; 
+                pickingSound.play().catch(e => console.error("Picking audio play failed:", e)); 
+            }
 
             // Exciting Animation Part 
             const animationDuration = 2000; 
@@ -433,6 +494,12 @@ David Brown"></textarea>
 
         // Function to reveal the actual winner after animation
         function revealWinner() {
+            // STOP picking sound
+            if (pickingSound) {
+                pickingSound.pause();
+                pickingSound.currentTime = 0; 
+            }
+
             const randomIndex = Math.floor(Math.random() * employeeNames.length);
 
             if (employeeNames.length === 0) {
@@ -445,6 +512,12 @@ David Brown"></textarea>
             // Display winner with huge text and pop-in animation
             resultDisplay.innerHTML = `Congratulations! The winner is:<br><strong class="winner-name">${winner}</strong>`;
             
+            // PLAY winner sound
+            if (winSound) {
+                winSound.currentTime = 0;
+                winSound.play().catch(e => console.error("Win audio play failed:", e));
+            }
+
             fireConfetti();
 
             updateRemainingList(); 
@@ -478,6 +551,12 @@ David Brown"></textarea>
 
         // 4. Reset Application
         function resetApp() {
+            // Ensure sound is stopped on reset
+            if (pickingSound) {
+                pickingSound.pause();
+                pickingSound.currentTime = 0; 
+            }
+            
             employeeNames = [...initialNames]; 
             
             if (initialNames.length > 0) {
@@ -523,7 +602,6 @@ David Brown"></textarea>
 
         // --- Confetti & Fireworks Function ---
         function fireConfetti() {
-            // Basic confetti from the center
             confetti({
                 particleCount: 100,
                 spread: 70,
@@ -546,9 +624,7 @@ David Brown"></textarea>
                 }
 
                 var particleCount = 50 * (timeLeft / duration);
-                // Fire from left side 
                 confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-                // Fire from right side 
                 confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
             }, 250);
         }
@@ -563,8 +639,8 @@ David Brown"></textarea>
         totalNameCountDisplay.innerText = 0;
         remainingCountDisplay.innerText = 0;
         updateRemainingList(); 
+        // END JAVASCRIPT CODE
     </script>
 </body>
 
 </html>
-
