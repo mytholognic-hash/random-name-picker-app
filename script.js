@@ -25,10 +25,10 @@ function initializeAudio() {
     if (!pickingSound) { 
         pickingSound = new Audio('picking_sound.mp3'); 
         pickingSound.loop = true; 
-        pickingSound.volume = 0.5; 
+        pickingSound.volume = 1; 
 
         winSound = new Audio('win_jingle.mp3'); 
-        winSound.volume = 0.7; 
+        winSound.volume = 1; 
     }
 }
 
@@ -253,3 +253,4 @@ totalNameCountDisplay.innerText = 0;
 remainingCountDisplay.innerText = 0;
 updateRemainingList(); 
 // END JAVASCRIPT CODE
+
