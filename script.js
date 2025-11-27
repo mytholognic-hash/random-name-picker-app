@@ -1,3 +1,5 @@
+// BEGIN JAVASCRIPT CODE
+
 let employeeNames = []; 
 let initialNames = [];  
 
@@ -13,6 +15,15 @@ const mainContainer = document.querySelector(".main-container");
 // References for name counts
 const totalNameCountDisplay = document.getElementById("totalNameCount");
 const remainingCountDisplay = document.getElementById("remainingCount");
+
+// ADDED: Audio Objects
+const pickingSound = new Audio('picking_sound.mp3'); 
+pickingSound.loop = true; 
+pickingSound.volume = 0.5; 
+
+const winSound = new Audio('win_jingle.mp3'); 
+winSound.volume = 0.7; 
+// END ADDED
 
 // --- Core Functions ---
 
@@ -35,7 +46,6 @@ function loadNames() {
 
     initialNames = [...employeeNames]; 
     
-    // Set Total Count 
     totalNameCountDisplay.innerText = initialNames.length;
     
     updateRemainingList();
@@ -46,7 +56,7 @@ function loadNames() {
     nameInput.disabled = true;
 }
 
-// 2. Pick a Winner
+// 2. Pick a Winner (MODIFIED to start picking sound)
 async function selectRandomWinner() {
     if (employeeNames.length === 0) {
         resultDisplay.innerHTML = "🎉 All names have been picked!";
@@ -56,6 +66,10 @@ async function selectRandomWinner() {
 
     drawButton.disabled = true;
     resultDisplay.innerHTML = `<span class="draw-animation">Picking...</span>`;
+    
+    // START picking sound
+    pickingSound.currentTime = 0; 
+    pickingSound.play().catch(e => console.log("Audio play failed:", e)); 
 
     // Exciting Animation Part 
     const animationDuration = 2000; 
@@ -80,11 +94,14 @@ async function selectRandomWinner() {
     }, intervalTime);
 }
 
-// Function to reveal the actual winner after animation
+// Function to reveal the actual winner after animation (MODIFIED to stop picking and play win sound)
 function revealWinner() {
+    // STOP picking sound
+    pickingSound.pause();
+    pickingSound.currentTime = 0; 
+
     const randomIndex = Math.floor(Math.random() * employeeNames.length);
 
-    // Ensure we don't try to access an index if the list became empty during the animation (safe check)
     if (employeeNames.length === 0) {
         return;
     }
@@ -92,9 +109,12 @@ function revealWinner() {
     const winner = employeeNames[randomIndex];
     employeeNames.splice(randomIndex, 1); 
 
-    // Display winner with huge text and pop-in animation
     resultDisplay.innerHTML = `Congratulations! The winner is:<br><strong class="winner-name">${winner}</strong>`;
     
+    // PLAY winner sound
+    winSound.currentTime = 0;
+    winSound.play().catch(e => console.log("Win audio play failed:", e));
+
     fireConfetti();
 
     updateRemainingList(); 
@@ -112,7 +132,6 @@ function revealWinner() {
 function updateRemainingList() {
     remainingNamesList.innerHTML = ''; 
     
-    // Update Remaining Count
     remainingCountDisplay.innerText = employeeNames.length; 
 
     if (employeeNames.length === 0) {
@@ -128,6 +147,10 @@ function updateRemainingList() {
 
 // 4. Reset Application
 function resetApp() {
+    // Ensure sound is stopped on reset
+    pickingSound.pause();
+    pickingSound.currentTime = 0; 
+    
     employeeNames = [...initialNames]; 
     
     if (initialNames.length > 0) {
@@ -180,7 +203,6 @@ function fireConfetti() {
         origin: { y: 0.6 }
     });
 
-    // More intense confetti from sides (like fireworks)
     var duration = 4 * 1000; 
     var animationEnd = Date.now() + duration;
     var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
@@ -197,9 +219,7 @@ function fireConfetti() {
         }
 
         var particleCount = 50 * (timeLeft / duration);
-        // Fire from left side 
         confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-        // Fire from right side 
         confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
     }, 250);
 }
@@ -213,4 +233,6 @@ resetButton.addEventListener("click", resetApp);
 // --- Initial Setup on page load ---
 totalNameCountDisplay.innerText = 0;
 remainingCountDisplay.innerText = 0;
-updateRemainingList();
+updateRemainingList(); 
+
+// END JAVASCRIPT CODE
