@@ -24,7 +24,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px 20px 80px 20px; /* Increased bottom padding for the fixed footer */
+            /* Using percentage padding for fluid margins on wide screens */
+            padding: 20px 5% 80px 5%; 
             margin: 0;
             min-height: 100vh;
             box-sizing: border-box;
@@ -33,9 +34,10 @@
         }
         .main-container {
             background-color: #ffffff;
-            border-radius: 18px; /* Slightly rounder */
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); /* Stronger shadow */
-            max-width: 800px;
+            border-radius: 18px; 
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); 
+            /* UPDATED: Increased max-width for full-screen desktop use */
+            max-width: 1200px; 
             width: 100%;
             margin-bottom: 30px;
             overflow: hidden;
@@ -44,7 +46,7 @@
             position: relative;
         }
         h1 {
-            color: #00796b; /* Teal color for title */
+            color: #00796b; 
             margin-bottom: 20px;
             font-size: 2.5em;
             font-weight: 700;
@@ -52,9 +54,10 @@
             text-align: center;
         }
 
-        /* --- Name Input Section (Focused) --- */
+        /* --- Name Input Section (Focused & Creative Background) --- */
         .name-input-section {
-            background: url('https://picsum.photos/800/400?random=456') center/cover no-repeat;
+            /* UPDATED: New random image source for a more abstract/creative look */
+            background: url('https://picsum.photos/1200/400?blur=5&grayscale&random=789') center/cover no-repeat; 
             padding: 40px;
             color: white;
             text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
@@ -62,7 +65,6 @@
             z-index: 1;
         }
         .name-input-section::before {
-            /* UPDATED: Slightly lighter overlay */
             background: rgba(0, 0, 0, 0.3); 
             content: '';
             position: absolute;
@@ -74,7 +76,7 @@
         }
         .name-input-section label {
             color: white;
-            font-size: 1.3em; /* Slightly larger label */
+            font-size: 1.3em; 
             font-weight: 700;
             margin-bottom: 15px;
         }
@@ -83,7 +85,7 @@
             height: 200px;
             margin-bottom: 20px;
             padding: 12px;
-            border: 2px solid #00acc1; /* Cyan border */
+            border: 2px solid #00acc1; 
             border-radius: 10px;
             font-size: 1.1em;
             resize: vertical;
@@ -105,9 +107,9 @@
             text-align: center;
         }
         button {
-            padding: 14px 30px; /* Larger buttons */
+            padding: 14px 30px; 
             border: none;
-            border-radius: 999px; /* Pill shape */
+            border-radius: 999px; 
             font-size: 1.1em;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
@@ -116,7 +118,7 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         button:hover:not(:disabled) {
-            transform: translateY(-4px); /* Stronger hover effect */
+            transform: translateY(-4px); 
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
         }
         button:disabled {
@@ -126,21 +128,21 @@
             transform: none;
         }
         #loadNamesButton { 
-            background-color: #4caf50; /* Load: Green */
+            background-color: #4caf50; 
             color: #ffffff;
         }
         #loadNamesButton:hover:not(:disabled) { 
             background-color: #43a047; 
         }
         #drawButton { 
-            background-color: #ff9800; /* Draw: Orange/Amber */
+            background-color: #ff9800; 
             color: #ffffff;
         }
         #drawButton:hover:not(:disabled) { 
             background-color: #fb8c00; 
         }
         #resetButton { 
-            background-color: #f44336; /* Reset: Red */
+            background-color: #f44336; 
             color: #ffffff;
         }
         #resetButton:hover:not(:disabled) { 
@@ -149,14 +151,14 @@
 
         /*
         ===================================================================
-        --- RESULT & ANIMATION STYLES ---
+        --- RESULT & ANIMATION & COUNT BOX STYLES ---
         ===================================================================
         */
         #resultDisplay {
             margin-top: 30px;
             font-size: 2.4em;
             font-weight: 700;
-            color: #1976d2; /* Deep blue for status */
+            color: #1976d2; 
             min-height: 60px;
             display: flex;
             align-items: center;
@@ -166,13 +168,13 @@
         }
         .draw-animation {
             font-size: 3em;
-            color: #ffeb3b; /* Bright yellow/gold */
+            color: #ffeb3b; 
             animation: pulse 1s infinite alternate, bounce 0.5s infinite ease-in-out;
             text-shadow: 0 0 20px rgba(255, 235, 59, 0.9);
         }
         .winner-name {
-            font-size: 4.5em; /* EVEN bigger name! */
-            color: #c2185b; /* Deep pink/Red for celebration */
+            font-size: 4.5em; 
+            color: #c2185b; 
             font-weight: 800;
             text-shadow: 4px 4px 15px rgba(0,0,0,0.3), 0 0 30px rgba(194, 24, 91, 0.8);
             animation: popIn 0.5s ease-out;
@@ -194,11 +196,7 @@
             50% { transform: translateY(-10px); }
         }
 
-        /*
-        ===================================================================
-        --- COUNT BOXES ---
-        ===================================================================
-        */
+        /* COUNT BOXES */
         #nameCountDashboard {
             display: flex;
             justify-content: space-between;
@@ -217,11 +215,11 @@
             transform: translateY(-3px);
         }
         .total-box {
-            background-color: #e3f2fd; /* Very light blue */
+            background-color: #e3f2fd; 
             border: 1px solid #90caf9;
         }
         .remaining-box {
-            background-color: #fff9c4; /* Light yellow */
+            background-color: #fff9c4; 
             border: 1px solid #ffeb3b;
         }
         .count-box span {
@@ -237,10 +235,10 @@
             font-weight: 800;
         }
         .total-box strong {
-             color: #1976d2; /* Deep blue count */
+             color: #1976d2; 
         }
         .remaining-box strong {
-             color: #f57f17; /* Dark orange count */
+             color: #f57f17; 
         }
 
         /*
@@ -379,7 +377,7 @@ David Brown"></textarea>
     </div>
 
     <footer class="app-footer">
-        Created by <strong>Nicky Nooknick</strong>
+        Created by <strong>Nicky</strong>
     </footer>
     <script>
         // BEGIN JAVASCRIPT CODE
@@ -644,5 +642,3 @@ David Brown"></textarea>
 </body>
 
 </html>
-
-
