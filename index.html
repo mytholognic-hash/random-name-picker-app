@@ -18,13 +18,14 @@
         */
         body {
             font-family: 'Poppins', sans-serif;
-            /* UPDATED: Lighter, more vibrant background gradient */
+            /* Lighter, more vibrant background gradient */
             background: linear-gradient(135deg, #f0f2f5 0%, #e0f7fa 100%); 
             color: #333;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px 5% 80px 5%; /* Using percentage padding for fluid margins on wide screens */
+            /* Using percentage padding for fluid margins on wide screens */
+            padding: 20px 5% 80px 5%; 
             margin: 0;
             min-height: 100vh;
             box-sizing: border-box;
@@ -33,10 +34,11 @@
         }
         .main-container {
             background-color: #ffffff;
-            border-radius: 18px; /* Slightly rounder */
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); /* Stronger shadow */
-            max-width: 1200px;
-            width: 100%;
+            border-radius: 18px; 
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); 
+            /* MODIFIED: Stretches to 90% of screen width (Fluid) */
+            width: 90%;
+            /* max-width: 1200px; <--- REMOVED FOR FLUID WIDTH */
             margin-bottom: 30px;
             overflow: hidden;
             display: flex;
@@ -54,7 +56,7 @@
 
         /* --- Name Input Section (Focused & Creative Background) --- */
         .name-input-section {
-            /* UPDATED: Using user-specified local image file */
+            /* USING USER-SPECIFIED LOCAL IMAGE FILE */
             background: url('gift_bg.jpg') center/cover no-repeat; 
             padding: 40px;
             color: white;
@@ -214,11 +216,11 @@
             transform: translateY(-3px);
         }
         .total-box {
-            background-color: #e3f2fd; /* Very light blue */
+            background-color: #e3f2fd; 
             border: 1px solid #90caf9;
         }
         .remaining-box {
-            background-color: #fff9c4; /* Light yellow */
+            background-color: #fff9c4; 
             border: 1px solid #ffeb3b;
         }
         .count-box span {
@@ -318,6 +320,7 @@
             }
             .main-container {
                 padding: 0;
+                width: 98%; /* Use almost full width on mobile */
             }
             .winner-name {
                 font-size: 3em; 
